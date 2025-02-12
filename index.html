@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Secret Word</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        .word-box {
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin: 20px;
+        }
+        .hint {
+            font-size: 18px;
+            color: #555;
+        }
+        .message {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+            animation: pop 0.5s ease-in-out;
+        }
+        .wrong {
+            color: red;
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25%, 75% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Secret Word</h1>
+    <p class="word-box" id="word-box"></p>
+    <p class="hint" id="hint"></p>
+    <input type="text" id="guess-input" placeholder="Enter your guess">
+    <button onclick="checkGuess()">Submit</button>
+    <p class="message" id="message"></p>
+    
+    <script>
+        const words = [
+            { word: "APPLE", hint: "A red or green fruit often found in orchards." },
+            { word: "TIGER", hint: "A large feline with orange fur and black stripes." },
+            { word: "OCEAN", hint: "A vast body of saltwater covering much of Earth." },
+            { word: "BREAD", hint: "A staple food made from flour and yeast." },
+            { word: "MUSIC", hint: "An art form consisting of sound and rhythm." },
+            { word: "RIVER", hint: "A flowing body of water that moves towards the sea." },
+            { word: "MOUNTAIN", hint: "A large natural elevation of the earth's surface." },
+            { word: "PLANET", hint: "A celestial body orbiting a star." },
+            { word: "PYRAMID", hint: "A triangular ancient structure found in Egypt." },
+            { word: "BRIDGE", hint: "A structure built to span a physical obstacle." },
+            { word: "GUITAR", hint: "A musical instrument with six strings." },
+            { word: "LANTERN", hint: "A light source often used in the dark." },
+            { word: "JOURNAL", hint: "A personal record of thoughts and experiences." },
+            { word: "LIBRARY", hint: "A place full of books and knowledge." },
+            { word: "FURNACE", hint: "A heating system often used in buildings." },
+            { word: "CANYON", hint: "A deep gorge often carved by a river." },
+            { word: "FOSSIL", hint: "Preserved remains of ancient organisms." },
+            { word: "CIRCUS", hint: "A traveling show with acrobats and clowns." },
+            { word: "WINDOW", hint: "An opening in a wall to let light in." },
+            { word: "CANDLE", hint: "A wax cylinder with a wick for light." }
+        ];
+
+        while (words.length < 100) {
+            let randomIndex = Math.floor(Math.random() * words.length);
+            words.push(words[randomIndex]);
+        }
+
+        const chosenWord = words[Math.floor(Math.random() * words.length)];
+        document.getElementById("word-box").textContent = chosenWord.word.replace(/.(?=.{2})/g, '_ ');
+        document.getElementById("hint").textContent = "Hint: " + chosenWord.hint;
+
+        function checkGuess() {
+            let guess = document.getElementById("guess-input").value.toUpperCase();
+            let message = document.getElementById("message");
+            
+            if (guess === chosenWord.word) {
+                message.textContent = "🎉 Correct! You guessed the word!";
+                message.className = "message correct";
+            } else {
+                message.textContent = "❌ Wrong guess! Try again.";
+                message.className = "message wrong";
+            }
+        }
+    </script>
+</body>
+</html>
